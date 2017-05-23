@@ -50,13 +50,12 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "$(npm bin)/concurrently 'npm react-start' '$(npm bin)/wait-on http://localhost:3000/ && npm electron-start'",
+    "start": "$(npm bin)/concurrently 'npm run react-start' '$(npm bin)/wait-on http://localhost:3000/ && npm run electron-start'",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "electron": "electron .",
-    "electron-dev": "ELECTRON_START_URL=http://localhost:3000 electron .",
-    "react-start": "$(npm bin)/react-scripts start",
-    "electron-start": "ELECTRON_DEV=1 $(npm bin)/electron ."
+    "react-start": "node scripts/start.js",
+    "electron-start": "ELECTRON_START_URL=http://localhost:3000 $(npm bin)/electron ."
   },
   "jest": {
     "collectCoverageFrom": [
