@@ -1,7 +1,9 @@
 {
   "name": "electron-app",
   "version": "0.1.0",
+  "main": "electron-starter.js",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
@@ -16,8 +18,10 @@
     "babel-runtime": "6.23.0",
     "case-sensitive-paths-webpack-plugin": "1.1.4",
     "chalk": "1.1.3",
+    "concurrently": "^3.4.0",
     "css-loader": "0.28.1",
     "dotenv": "4.0.0",
+    "electron": "^1.6.8",
     "eslint": "3.19.0",
     "eslint-config-react-app": "^1.0.3",
     "eslint-loader": "1.7.1",
@@ -39,15 +43,20 @@
     "style-loader": "0.17.0",
     "sw-precache-webpack-plugin": "0.9.1",
     "url-loader": "0.5.8",
+    "wait-on": "^2.0.2",
     "webpack": "2.5.1",
     "webpack-dev-server": "2.4.5",
     "webpack-manifest-plugin": "1.1.0",
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "$(npm bin)/concurrently 'npm react-start' '$(npm bin)/wait-on http://localhost:3000/ && npm electron-start'",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "electron": "electron .",
+    "electron-dev": "ELECTRON_START_URL=http://localhost:3000 electron .",
+    "react-start": "$(npm bin)/react-scripts start",
+    "electron-start": "ELECTRON_DEV=1 $(npm bin)/electron ."
   },
   "jest": {
     "collectCoverageFrom": [
