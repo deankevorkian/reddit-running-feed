@@ -4,8 +4,12 @@ import React from 'react';
 import {NavItem, Nav} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 
-type Props = { /* ... */ };
-type State = { key: number };
+type Props = {
+ /* ... */
+};
+type State = {
+  key: number
+};
 
 export default class NavBarComponent extends React.Component<void, Props, State> {
   state : State;

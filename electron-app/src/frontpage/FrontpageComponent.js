@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
+import SubbredditComponent from '../subreddit/SubredditComponent';
 
 class FrontpageComponent extends Component {
   render() {
     return(
-      <iframe width="800" height="800" src="https://www.mako.co.il"></iframe>
+      <SubbredditComponent subreddit="frontpage">
+        
+      </SubbredditComponent>
     );
   }
 }
