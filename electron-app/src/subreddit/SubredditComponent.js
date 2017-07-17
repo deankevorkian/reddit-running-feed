@@ -14,22 +14,42 @@ type State = {
 
 export default class SubbredditComponent extends Component<void, Props, State> {
   state: State;
+  agentFactory: SubredditService;
+  agent: snoowrap;
 
   constructor(props: Props) {
     super(props);
     this.state = {
       posts: []
     };
+    this.agentFactory = new SubredditService();
+  }
+
+  componentWillUpdate(nextProps: Props, nextState: State) {
+
   }
 
   componentDidMount() {
-    let subredditName: string = this.props.subreddit;
-    let service = new SubredditService();
+    this.agentFactory.getAgent().then(newAgent => {
+        this.agent = newAgent;
+        this.getPosts();
+      });
+  }
 
-    /*let relPosts = service.GetPosts(subredditName);
-    this.setState(({
-      posts: relPosts
-    }));*/
+  getPosts() {
+    this.agent.getHot(this.props.subreddit).then(submissions => {
+      submissions.map(submission => {
+        return {
+          author: submission.author.name,
+          title: submission.title,
+          content: 'this is a placeholder for actual content lmfao',
+          upvotes: submission.ups,
+          downvotes: submission.downs,
+          gold: submission.gilded
+        }
+      })
+      console.log(submissions);
+    });
   }
 
   render() {

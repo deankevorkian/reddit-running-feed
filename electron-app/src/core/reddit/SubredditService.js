@@ -4,30 +4,12 @@ import snoowrap from 'snoowrap';
 import { Post } from './Post';
 
 export default class SubredditService {
-  redditAgent: snoowrap;
-  isInitialized: boolean;
+  authCode: string;
 
   constructor() {
-    this.setAgent();
-  }
+    let code = new URL(window.location.href).searchParams.get('code');
 
-  setAgent() {
-    // Get the `code` querystring param (assuming the user was redirected from reddit)
-    var code = new URL(window.location.href).searchParams.get('code');
-
-    if (code) {
-      snoowrap.fromAuthCode({
-        code: code,
-        userAgent: 'My app',
-        clientId: 'B9MiM6YU7XRzmA',
-        redirectUri: 'http://localhost:3000/'
-      }).then(r => {
-        // Now we have a requester that can access reddit through the user's account
-        this.redditAgent = r;
-        isInitialized = true;
-      });
-    }
-    else {
+    if (code === null || code === undefined) {
       let authenticationUrl = snoowrap.getAuthUrl({
         clientId: 'B9MiM6YU7XRzmA',
         scope: ['identity', 'wikiread', 'wikiedit', 'read'],
@@ -39,26 +21,27 @@ export default class SubredditService {
 
       window.location = authenticationUrl; // send the user to the authentication url
     }
+    else {
+      this.authCode = code;
+    }
   }
 
-  GetPosts(subName : string)/*: Post[]*/ {
-    /*let post: Post = {
-      author : "dindin",
-      content : "i have crippling depression",
-      downvotes : 0,
-      upvotes : 15000,
-      gold : 1,
-      title : "i have osteopherosis"
-    };
-
-    return [post];*/
-
-    this.redditAgent.getHot().then(posts => {
-      posts.map((post) => {
-        console.log(post.title);
-        return post;
+  getAgent() : Promise<*> {
+    if (this.authCode) {
+      return snoowrap.fromAuthCode({
+        code: this.authCode,
+        userAgent: 'My app',
+        clientId: 'B9MiM6YU7XRzmA',
+        redirectUri: 'http://localhost:3000/'
       });
-    })
+      /*.then(r => {
+        // Now we have a requester that can access reddit through the user's account
+        this.redditAgent = r;
+        this.isInitialized = true;
+      });*/
+    }
+    else {
+      return Promise.reject("No auth code received. Authenticate via reddit first.");
+    }
   }
-
 }
