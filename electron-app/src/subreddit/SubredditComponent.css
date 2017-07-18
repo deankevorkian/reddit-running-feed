@@ -1,0 +1,9 @@
+.panel {
+  	font-family: "Open Sans script=all rev=2", "Adobe Blank", "sans-serif";
+    font-weight: 300;
+    font-size: 24px;
+}
+.panel img {
+  padding-left: 1em;
+  margin-right: 1em;
+}

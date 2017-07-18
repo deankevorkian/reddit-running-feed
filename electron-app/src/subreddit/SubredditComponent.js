@@ -1,53 +1,63 @@
 /* @flow */
 
 import React, {Component} from 'react';
+import { Panel, Glyphicon } from 'react-bootstrap';
 import { Post } from '../core/reddit/Post';
 import SubredditService from '../core/reddit/SubredditService';
-import snoowrap from 'snoowrap';
+import './SubredditComponent.css';
 
 type Props = {
   subreddit: string
 };
 type State = {
-  posts: Post[]
+  posts: Post[],
+  agent: any
 };
 
 export default class SubbredditComponent extends Component<void, Props, State> {
   state: State;
   agentFactory: SubredditService;
-  agent: snoowrap;
 
   constructor(props: Props) {
     super(props);
     this.state = {
-      posts: []
+      posts: [],
+      agent: null
     };
-    this.agentFactory = new SubredditService();
   }
 
-  componentWillUpdate(nextProps: Props, nextState: State) {
-
+  componentDidUpdate(prevProps : Props, prevState : State) {
+    if (prevState.agent == null) {
+      this.getPosts();
+    }
   }
 
   componentDidMount() {
-    this.agentFactory.getAgent().then(newAgent => {
-        this.agent = newAgent;
-        this.getPosts();
-      });
+    this.agentFactory = new SubredditService();
+    this.agentFactory.getAgent().then(newAgent => this.setState(({
+      agent: newAgent
+    })));
   }
 
   getPosts() {
-    this.agent.getHot(this.props.subreddit).then(submissions => {
-      submissions.map(submission => {
-        return {
-          author: submission.author.name,
-          title: submission.title,
-          content: 'this is a placeholder for actual content lmfao',
-          upvotes: submission.ups,
-          downvotes: submission.downs,
-          gold: submission.gilded
-        }
-      })
+    this.state.agent.getHot(this.props.subreddit).then(submissions => {
+      this.setState(({
+        posts: submissions.map(submission => {
+          return {
+            submissionId: submission.id,
+            author: submission.author.name,
+            title: submission.title,
+            upvotes: submission.ups,
+            downvotes: submission.downs,
+            gold: submission.gilded,
+            thumbnailUrl: submission.thumbnail,
+            thumbnailHeight: submission.thumbnail_height,
+            thumbnailWidth: submission.thumbnail_width,
+            url: submission.url
+          }
+        })
+      }));
+
       console.log(submissions);
     });
   }
@@ -57,7 +67,15 @@ export default class SubbredditComponent extends Component<void, Props, State> {
       <div>
         {this.state.posts.map((post) => {
           return (
-            <h1>{post.author + ", " + post.content}</h1>
+            <div key={post.submissionId}>
+              <Panel header={post.author} bsStyle="primary">
+                <Glyphicon glyph="arrow-up">{post.upvotes}</Glyphicon>
+                <Glyphicon glyph="arrow-down">{post.downvotes}</Glyphicon>
+                <a href={post.url}>
+                  <img src={post.thumbnailUrl} alt={post.title}></img>{post.title}
+                </a>
+              </Panel>
+            </div>
           )
         })}
       </div>

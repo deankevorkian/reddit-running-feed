@@ -4,8 +4,8 @@ import SubbredditComponent from '../subreddit/SubredditComponent';
 class FrontpageComponent extends Component {
   render() {
     return(
-      <SubbredditComponent subreddit="frontpage">
-        
+      <SubbredditComponent subreddit="programming">
+
       </SubbredditComponent>
     );
   }

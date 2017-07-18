@@ -1,7 +1,6 @@
 /* @flow */
 
 import snoowrap from 'snoowrap';
-import { Post } from './Post';
 
 export default class SubredditService {
   authCode: string;
@@ -26,7 +25,7 @@ export default class SubredditService {
     }
   }
 
-  getAgent() : Promise<*> {
+  getAgent() : Promise<any> {
     if (this.authCode) {
       return snoowrap.fromAuthCode({
         code: this.authCode,
