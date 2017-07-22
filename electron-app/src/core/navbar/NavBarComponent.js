@@ -38,15 +38,15 @@ export default class NavBarComponent extends React.Component<void, Props, State>
           );
         })}
 
-        <LinkContainer exact={true} to="/">
+        {/* <LinkContainer exact={true} to="/">
           <NavItem eventKey={1}>Home</NavItem>
-        </LinkContainer>
-        <LinkContainer to="/about">
+          </LinkContainer>
+          <LinkContainer to="/about">
           <NavItem eventKey={2}>About</NavItem>
-        </LinkContainer>
-        <LinkContainer to="/topics">
+          </LinkContainer>
+          <LinkContainer to="/topics">
           <NavItem eventKey={3}>Topics</NavItem>
-        </LinkContainer>
+        </LinkContainer> */}
       </Nav>
     );
   }

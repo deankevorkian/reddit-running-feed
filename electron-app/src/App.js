@@ -38,7 +38,7 @@ class App extends Component<void, void, AppState> {
     this.state = {
       subredditsScrollSpot: new Map(),
       visitedSubsContent: new Map(),
-      subreddits: ["programming", "me_irl", "meirl"],
+      subreddits: []/*["programming", "me_irl", "meirl"]*/,
       agent: null
     };
   }
@@ -47,7 +47,13 @@ class App extends Component<void, void, AppState> {
     this.agentFactory = new SubredditService();
     this.agentFactory.getAgent().then(newAgent => this.setState(({
       agent: newAgent
-    })));
+    }))).then(() => {
+      this.state.agent.getSubscriptions({limit: 2}).then(subs => {
+        this.setState({subreddits: subs.map(sub => {
+          return sub.display_name
+        })});
+      })
+    });
   }
 
   render() {

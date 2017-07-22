@@ -7,6 +7,7 @@ const appClientId: string = "B9MiM6YU7XRzmA";
 const appClientSecret: string = "";
 const redirectUri: string = "http://10.0.0.3:3000/";
 const locStorRefTokKey: string = "user_refresh_token";
+const permissionsScope: string[] = ['identity', 'wikiread', 'wikiedit', 'read', 'mysubreddits'];
 
 export default class SubredditService {
   authCode: string;
@@ -27,7 +28,7 @@ export default class SubredditService {
       else {
         let authenticationUrl = snoowrap.getAuthUrl({
           clientId: appClientId,
-          scope: ['identity', 'wikiread', 'wikiedit', 'read'],
+          scope: permissionsScope,
           redirectUri: redirectUri,
           permanent: true,
           state: 'fe211bebc52eb3da9bef8db6e63104d3' // a random string, this could be validated when the user is redirected back

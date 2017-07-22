@@ -5,14 +5,14 @@ import { Panel, Glyphicon } from 'react-bootstrap';
 import { Post } from '../core/reddit/Post';
 import SubredditService from '../core/reddit/SubredditService';
 import './SubredditComponent.css';
+import snoowrap from 'snoowrap';
 
 type Props = {
   subreddit: string,
-  agent: any
+  agent: snoowrap
 };
 type State = {
-  posts: Post[],
-  //agent: any
+  posts: Post[]
 };
 
 export default class SubbredditComponent extends Component<void, Props, State> {
@@ -27,19 +27,13 @@ export default class SubbredditComponent extends Component<void, Props, State> {
   }
 
   componentDidUpdate(prevProps : Props, prevState : State) {
-    // if (prevState.agent == null) {
-    //   this.getPosts();
-    // }
     if (prevProps.agent == null) {
       this.getPosts();
     }
   }
 
   componentDidMount() {
-    // this.agentFactory = new SubredditService();
-    // this.agentFactory.getAgent().then(newAgent => this.setState(({
-    //   agent: newAgent
-    // })));
+    // TODO: Check if really is necessary to keep getPosts() calls both here and in componentDidUpdate.
     if (this.props.agent) {
       this.getPosts();
     }
