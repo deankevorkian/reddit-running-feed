@@ -7,11 +7,12 @@ import SubredditService from '../core/reddit/SubredditService';
 import './SubredditComponent.css';
 
 type Props = {
-  subreddit: string
+  subreddit: string,
+  agent: any
 };
 type State = {
   posts: Post[],
-  agent: any
+  //agent: any
 };
 
 export default class SubbredditComponent extends Component<void, Props, State> {
@@ -21,26 +22,31 @@ export default class SubbredditComponent extends Component<void, Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      posts: [],
-      agent: null
+      posts: []
     };
   }
 
   componentDidUpdate(prevProps : Props, prevState : State) {
-    if (prevState.agent == null) {
+    // if (prevState.agent == null) {
+    //   this.getPosts();
+    // }
+    if (prevProps.agent == null) {
       this.getPosts();
     }
   }
 
   componentDidMount() {
-    this.agentFactory = new SubredditService();
-    this.agentFactory.getAgent().then(newAgent => this.setState(({
-      agent: newAgent
-    })));
+    // this.agentFactory = new SubredditService();
+    // this.agentFactory.getAgent().then(newAgent => this.setState(({
+    //   agent: newAgent
+    // })));
+    if (this.props.agent) {
+      this.getPosts();
+    }
   }
 
   getPosts() {
-    this.state.agent.getHot(this.props.subreddit).then(submissions => {
+    this.props.agent.getHot(this.props.subreddit).then(submissions => {
       this.setState(({
         posts: submissions.map(submission => {
           return {

@@ -5,6 +5,8 @@ import snoowrap from 'snoowrap';
 const appUserAgent: string = "Reddit Running Feed";
 const appClientId: string = "B9MiM6YU7XRzmA";
 const appClientSecret: string = "";
+const redirectUri: string = "http://10.0.0.3:3000/";
+const locStorRefTokKey: string = "user_refresh_token";
 
 export default class SubredditService {
   authCode: string;
@@ -12,7 +14,7 @@ export default class SubredditService {
   userRefreshToken: ?string;
 
   constructor() {
-    let userRefreshToken: ?string = localStorage.getItem("user_refresh_token");
+    let userRefreshToken: ?string = localStorage.getItem(locStorRefTokKey);
     if (userRefreshToken) {
       this.userRefreshToken = userRefreshToken;
     }
@@ -24,9 +26,9 @@ export default class SubredditService {
       }
       else {
         let authenticationUrl = snoowrap.getAuthUrl({
-          clientId: 'B9MiM6YU7XRzmA',
+          clientId: appClientId,
           scope: ['identity', 'wikiread', 'wikiedit', 'read'],
-          redirectUri: 'http://localhost:3000/',
+          redirectUri: redirectUri,
           permanent: true,
           state: 'fe211bebc52eb3da9bef8db6e63104d3' // a random string, this could be validated when the user is redirected back
         });
@@ -50,12 +52,12 @@ export default class SubredditService {
       else if (this.authCode) {
         return snoowrap.fromAuthCode({
           code: this.authCode,
-          userAgent: 'My app',
-          clientId: 'B9MiM6YU7XRzmA',
-          redirectUri: 'http://localhost:3000/'
+          userAgent: appUserAgent,
+          clientId: appClientId,
+          redirectUri: redirectUri
         }).then(snooAgent => {
           this.userRefreshToken = snooAgent.refreshToken;
-          localStorage.setItem("user_refresh_token", snooAgent.refreshToken);
+          localStorage.setItem(locStorRefTokKey, snooAgent.refreshToken);
           console.log("VISITORS!");
         }).then(() => {
           return this.createPromiseFromRefreshToken();

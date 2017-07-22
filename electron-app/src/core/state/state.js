@@ -1,13 +1,9 @@
 // @flow
+import snoowrap from 'snoowrap';
 
-class AppState {
+export type AppState = {
   subredditsScrollSpot: Map<string, Object>;
   visitedSubsContent: Map<string, Object>;
-
-  constructor() {
-
-  }
-
+  subreddits: string[];
+  agent: snoowrap;
 }
-
-export default AppState;
