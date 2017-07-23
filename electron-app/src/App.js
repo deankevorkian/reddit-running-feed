@@ -48,7 +48,7 @@ class App extends Component<void, void, AppState> {
     this.agentFactory.getAgent().then(newAgent => this.setState(({
       agent: newAgent
     }))).then(() => {
-      this.state.agent.getSubscriptions({limit: 2}).then(subs => {
+      this.state.agent.getSubscriptions({/*limit: 50*/ show: "all"}).then(subs => {
         this.setState({subreddits: subs.map(sub => {
           return sub.display_name
         })});

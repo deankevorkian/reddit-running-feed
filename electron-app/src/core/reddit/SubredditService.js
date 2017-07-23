@@ -5,7 +5,7 @@ import snoowrap from 'snoowrap';
 const appUserAgent: string = "Reddit Running Feed";
 const appClientId: string = "B9MiM6YU7XRzmA";
 const appClientSecret: string = "";
-const redirectUri: string = "http://10.0.0.3:3000/";
+const redirectUri: string = "http://localhost:3000/";
 const locStorRefTokKey: string = "user_refresh_token";
 const permissionsScope: string[] = ['identity', 'wikiread', 'wikiedit', 'read', 'mysubreddits'];
 

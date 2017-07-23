@@ -28,38 +28,52 @@ export default class SubbredditComponent extends Component<void, Props, State> {
 
   componentDidUpdate(prevProps : Props, prevState : State) {
     if (prevProps.agent == null) {
-      this.getPosts();
+      this.onFetchData();
     }
   }
 
   componentDidMount() {
     // TODO: Check if really is necessary to keep getPosts() calls both here and in componentDidUpdate.
     if (this.props.agent) {
-      this.getPosts();
+      this.onFetchData();
     }
   }
 
-  getPosts() {
-    this.props.agent.getHot(this.props.subreddit).then(submissions => {
-      this.setState(({
-        posts: submissions.map(submission => {
-          return {
-            submissionId: submission.id,
-            author: submission.author.name,
-            title: submission.title,
-            upvotes: submission.ups,
-            downvotes: submission.downs,
-            gold: submission.gilded,
-            thumbnailUrl: submission.thumbnail,
-            thumbnailHeight: submission.thumbnail_height,
-            thumbnailWidth: submission.thumbnail_width,
-            url: submission.url
-          }
-        })
-      }));
+  getPosts(fetchAfter : ?string = null) : Promise<Post[]> {
+    return this.props.agent.getHot(this.props.subreddit, {after: fetchAfter}).then(submissions => {
+      let posts : Post[] = submissions.map(submission => {
+        return {
+          submissionId: submission.id,
+          author: submission.author.name,
+          title: submission.title,
+          upvotes: submission.ups,
+          downvotes: submission.downs,
+          gold: submission.gilded,
+          thumbnailUrl: submission.thumbnail,
+          thumbnailHeight: submission.thumbnail_height,
+          thumbnailWidth: submission.thumbnail_width,
+          url: submission.url
+        }
+      });
 
-      console.log(submissions);
+      return Promise.resolve(posts);
     });
+  }
+
+  onFetchData() {
+    let currPosts = this.state.posts;
+    let currPostsCount = currPosts.length;
+    let fetchAfter = currPostsCount > 0 ? "t3_" + currPosts[currPostsCount - 1].submissionId : null;
+    this.getPosts(fetchAfter).then(fetchedPosts => {
+      let mergedPosts : Post[] = [...currPosts, ...fetchedPosts];
+      this.setPosts(mergedPosts);
+    });
+  }
+
+  setPosts(posts : Post[]) {
+    this.setState(({
+      posts: posts
+    }));
   }
 
   render() {
@@ -78,6 +92,7 @@ export default class SubbredditComponent extends Component<void, Props, State> {
             </div>
           )
         })}
+        <button onClick={() => this.onFetchData()}> CLICK ME LOL FUCK </button>
       </div>
     );
   }
