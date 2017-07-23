@@ -1,19 +1,28 @@
 /* @flow */
 
 import React, {Component} from 'react';
-import { Panel, Glyphicon } from 'react-bootstrap';
-import { Post } from '../core/reddit/Post';
-import SubredditService from '../core/reddit/SubredditService';
+import SubmissionComponent from './SubmissionComponent';
+
+import InfiniteScroll from 'react-infinite-scroller';
+
 import './SubredditComponent.css';
+
+import { Post } from '../core/reddit/Post';
+
+import SubredditService from '../core/reddit/SubredditService';
 import snoowrap from 'snoowrap';
 
 type Props = {
   subreddit: string,
   agent: snoowrap
 };
+
 type State = {
-  posts: Post[]
+  posts: Post[],
+  hasMoreItems : boolean
 };
+
+const loader = (<div className="loader">Loading ...</div>);
 
 export default class SubbredditComponent extends Component<void, Props, State> {
   state: State;
@@ -22,21 +31,9 @@ export default class SubbredditComponent extends Component<void, Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      posts: []
+      posts: [],
+      hasMoreItems : true
     };
-  }
-
-  componentDidUpdate(prevProps : Props, prevState : State) {
-    if (prevProps.agent == null) {
-      this.onFetchData();
-    }
-  }
-
-  componentDidMount() {
-    // TODO: Check if really is necessary to keep getPosts() calls both here and in componentDidUpdate.
-    if (this.props.agent) {
-      this.onFetchData();
-    }
   }
 
   getPosts(fetchAfter : ?string = null) : Promise<Post[]> {
@@ -60,7 +57,7 @@ export default class SubbredditComponent extends Component<void, Props, State> {
     });
   }
 
-  onFetchData() {
+  fetchData() {
     let currPosts = this.state.posts;
     let currPostsCount = currPosts.length;
     let fetchAfter = currPostsCount > 0 ? "t3_" + currPosts[currPostsCount - 1].submissionId : null;
@@ -76,24 +73,28 @@ export default class SubbredditComponent extends Component<void, Props, State> {
     }));
   }
 
+  loadItems(page : number) {
+      this.fetchData();
+    }
+
   render() {
+    let items = [];
+    this.state.posts.map(post => {
+      items.push(
+        <SubmissionComponent submission={post} key={post.submissionId} />
+      )});
+
     return (
-      <div>
-        {this.state.posts.map((post) => {
-          return (
-            <div key={post.submissionId}>
-              <Panel header={post.author} bsStyle="primary">
-                <Glyphicon glyph="arrow-up">{post.upvotes}</Glyphicon>
-                <Glyphicon glyph="arrow-down">{post.downvotes}</Glyphicon>
-                <a href={post.url}>
-                  <img src={post.thumbnailUrl} alt={post.title}></img>{post.title}
-                </a>
-              </Panel>
-            </div>
-          )
-        })}
-        <button onClick={() => this.onFetchData()}> CLICK ME LOL FUCK </button>
-      </div>
+      <InfiniteScroll
+        pageStart={0}
+        loadMore={(page) => this.loadItems(page)}
+        hasMore={this.state.hasMoreItems}
+        loader={loader}>
+
+        <div className="tracks">
+          {items}
+        </div>
+      </InfiniteScroll>
     );
   }
 }
