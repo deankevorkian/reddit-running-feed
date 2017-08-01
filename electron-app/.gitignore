@@ -21,4 +21,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # app setttings
-/src/core/reddit/app-settings.js
+/src/core/reddit/app-settings*
