@@ -1,13 +1,9 @@
 /* @flow */
 
 import snoowrap from 'snoowrap';
+import { AppSettings } from './app-settings';
+import uuidv4 from 'uuid/v4';
 
-const appUserAgent: string = "Reddit Running Feed";
-const appClientId: string = "B9MiM6YU7XRzmA";
-const appClientSecret: string = "";
-const redirectUri: string = "http://localhost:3000/";
-const locStorRefTokKey: string = "user_refresh_token";
-const permissionsScope: string[] = ['identity', 'wikiread', 'wikiedit', 'read', 'mysubreddits'];
 
 export default class SubredditService {
   authCode: string;
@@ -15,7 +11,7 @@ export default class SubredditService {
   userRefreshToken: ?string;
 
   constructor() {
-    let userRefreshToken: ?string = localStorage.getItem(locStorRefTokKey);
+    let userRefreshToken: ?string = localStorage.getItem(AppSettings.locStorRefTokKey);
     if (userRefreshToken) {
       this.userRefreshToken = userRefreshToken;
     }
@@ -27,19 +23,16 @@ export default class SubredditService {
       }
       else {
         let authenticationUrl = snoowrap.getAuthUrl({
-          clientId: appClientId,
-          scope: permissionsScope,
-          redirectUri: redirectUri,
+          clientId: AppSettings.appClientId,
+          scope: AppSettings.permissionsScope,
+          redirectUri: AppSettings.redirectUri,
           permanent: true,
-          state: 'fe211bebc52eb3da9bef8db6e63104d3' // a random string, this could be validated when the user is redirected back
+          state: uuidv4() // a random string, this could be validated when the user is redirected back
         });
-        // --> 'https://www.reddit.com/api/v1/authorize?client_id=foobarbaz&response_type=code&state= ...'
 
         window.location = authenticationUrl; // send the user to the authentication url
       }
     }
-
-
   }
 
   getAgent() : Promise<snoowrap> {
@@ -53,13 +46,12 @@ export default class SubredditService {
       else if (this.authCode) {
         return snoowrap.fromAuthCode({
           code: this.authCode,
-          userAgent: appUserAgent,
-          clientId: appClientId,
-          redirectUri: redirectUri
+          userAgent: AppSettings.appUserAgent,
+          clientId: AppSettings.appClientId,
+          redirectUri: AppSettings.redirectUri
         }).then(snooAgent => {
           this.userRefreshToken = snooAgent.refreshToken;
-          localStorage.setItem(locStorRefTokKey, snooAgent.refreshToken);
-          console.log("VISITORS!");
+          localStorage.setItem(AppSettings.locStorRefTokKey, snooAgent.refreshToken);
         }).then(() => {
           return this.createPromiseFromRefreshToken();
         });
@@ -73,9 +65,9 @@ export default class SubredditService {
   createPromiseFromRefreshToken() : Promise<snoowrap> {
     return new Promise((resolve, reject) => {
       let agent = new snoowrap({
-        userAgent: appUserAgent,
-        clientId: appClientId,
-        clientSecret: appClientSecret,
+        userAgent: AppSettings.appUserAgent,
+        clientId: AppSettings.appClientId,
+        clientSecret: AppSettings.appClientSecret,
         refreshToken: this.userRefreshToken
       });
 
