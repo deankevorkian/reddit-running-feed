@@ -12,7 +12,7 @@ type Props = {
   submission : Post;
 };
 
-export default class SubmissionComponent extends React.Component<void, Props, State> {
+export default class SubmissionComponent extends React.Component<Props, State> {
   state: State;
 
   constructor(props: Props) {

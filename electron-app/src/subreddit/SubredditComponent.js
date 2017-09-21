@@ -24,7 +24,7 @@ type State = {
 
 const loader = (<div className="loader">Loading ...</div>);
 
-export default class SubbredditComponent extends Component<void, Props, State> {
+export default class SubbredditComponent extends Component<Props, State> {
   state: State;
   agentFactory: SubredditService;
 

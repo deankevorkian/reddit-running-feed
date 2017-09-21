@@ -11,7 +11,7 @@ type State = {
   key: number
 };
 
-export default class NavBarComponent extends React.Component<void, Props, State> {
+export default class NavBarComponent extends React.Component<Props, State> {
   state : State;
 
   constructor(props: Props) {

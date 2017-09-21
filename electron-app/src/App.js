@@ -28,7 +28,7 @@ const PropsRoute = ({ component, ...rest }) => {
   );
 }
 
-class App extends Component<void, void, AppState> {
+class App extends Component<void, AppState> {
 
   state: AppState;
   agentFactory: SubredditService;
