@@ -4,6 +4,8 @@ import React, {Component} from 'react';
 import reddit from './reddit.png';
 import './App.css';
 
+import {Row, Col} from 'react-bootstrap';
+
 import type { AppState } from './core/state/state';
 
 import SubredditService from './core/reddit/SubredditService';
@@ -63,15 +65,19 @@ class App extends Component<void, AppState> {
           <img src={reddit} className="App-logo" alt="logo" />
           <h2>Reddit Running Feed</h2>
 
-          <NavBarComponent subreddits={this.state.subreddits} />
+          <Row bsClass={"row-container row"}>
+            <Col sm={2} bsClass={"scrolled-area-holder col"}>
+              <NavBarComponent subreddits={this.state.subreddits} />
+            </Col>
 
-          <hr/>
-
-          {this.state.subreddits.map(subReddit => {
-            return (
-              <PropsRoute key={subReddit} exact path={"/" + subReddit} component={SubredditComponent} subreddit={subReddit} agent={this.state.agent} />
-            );
-          })}
+            <Col sm={10} bsClass={"scrolled-area-holder col"}>
+              {this.state.subreddits.map(subReddit => {
+                return (
+                  <PropsRoute key={subReddit} exact path={"/" + subReddit} component={SubredditComponent} subreddit={subReddit} agent={this.state.agent} />
+                );
+              })}
+            </Col>
+          </Row>
         </div>
       </Router>
     );

@@ -26,7 +26,7 @@ export default class SubmissionComponent extends React.Component<Props, State> {
           <Glyphicon glyph="arrow-up">{this.props.submission.upvotes}</Glyphicon>
           <Glyphicon glyph="arrow-down">{this.props.submission.downvotes}</Glyphicon>
           <a href={this.props.submission.url}>
-            <img src={this.props.submission.thumbnailUrl} alt={this.props.submission.title}></img>{this.props.submission.title}
+            <img src={this.props.submission.thumbnailUrl !== 'default' && this.props.submission.thumbnailUrl !== 'self' ? this.props.submission.thumbnailUrl: ""} alt={this.props.submission.title}></img>{this.props.submission.title}
           </a>
         </Panel>
       </div>

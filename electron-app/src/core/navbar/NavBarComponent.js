@@ -1,7 +1,7 @@
 /* @flow */
 
 import React from 'react';
-import {NavItem, Nav} from 'react-bootstrap';
+import {NavItem, Nav, Tab} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 
 type Props = {
@@ -28,26 +28,28 @@ export default class NavBarComponent extends React.Component<Props, State> {
 
   render() {
     return (
-      <Nav bsStyle="pills" activeKey={this.state.key} onSelect={() => this.handleSelect}>
+      // <Nav bsStyle="pills" activeKey={this.state.key} onSelect={() => this.handleSelect}>
+      //
+      //   {this.props.subreddits.map((sub, index) => {
+      //     return (
+      //       <LinkContainer key={sub} exact={true} to={"/" + sub}>
+      //         <NavItem eventKey={index + 1}>{sub}</NavItem>
+      //       </LinkContainer>
+      //     );
+      //   })}
+      // </Nav>
 
-        {this.props.subreddits.map((sub, index) => {
-          return (
-            <LinkContainer key={sub} exact={true} to={"/" + sub}>
-              <NavItem eventKey={index + 1}>{sub}</NavItem>
-            </LinkContainer>
-          );
-        })}
 
-        {/* <LinkContainer exact={true} to="/">
-          <NavItem eventKey={1}>Home</NavItem>
+    <Nav bsStyle="pills" activeKey={this.state.key} onSelect={() => this.handleSelect} stacked>
+
+      {this.props.subreddits.map((sub, index) => {
+        return (
+          <LinkContainer key={sub} exact={true} to={"/" + sub}>
+            <NavItem eventKey={index + 1}>{sub}</NavItem>
           </LinkContainer>
-          <LinkContainer to="/about">
-          <NavItem eventKey={2}>About</NavItem>
-          </LinkContainer>
-          <LinkContainer to="/topics">
-          <NavItem eventKey={3}>Topics</NavItem>
-        </LinkContainer> */}
-      </Nav>
+        );
+      })}
+    </Nav>
     );
   }
 }
