@@ -1,6 +1,6 @@
-// flow-typed signature: c597e0b0defff17abb9f150848cbd316
-// flow-typed version: b43dff3e0e/object-assign_v4.x.x/flow_>=v0.16.x
+// flow-typed signature: 19f6a55519dd3216a6e1906d4d7710ad
+// flow-typed version: da30fe6876/object-assign_v4.x.x/flow_>=v0.25.x
 
-declare module 'object-assign' {
-  declare function exports(target: any, ...sources: Array<any>): Object;
+declare module "object-assign" {
+  declare module.exports: (target: any, ...sources: Array<any>) => Object;
 }

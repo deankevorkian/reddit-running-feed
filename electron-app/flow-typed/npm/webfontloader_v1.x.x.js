@@ -1,7 +1,7 @@
-// flow-typed signature: 597f18897fff6626c749060115ba6252
-// flow-typed version: b43dff3e0e/webfontloader_v1.x.x/flow_>=v0.15.x
+// flow-typed signature: aa5e31db696802c8253d7c6315ed6c23
+// flow-typed version: da30fe6876/webfontloader_v1.x.x/flow_>=v0.25.x
 
-declare module 'webfontloader' {
+declare module "webfontloader" {
   declare type WebFontConfig = {
     loading?: () => mixed,
     active?: () => mixed,
@@ -19,31 +19,30 @@ declare module 'webfontloader' {
     custom?: {
       families: string[],
       urls: string[],
-      testStrings: { [k: string]: string },
+      testStrings: { [k: string]: string }
     },
 
     fontdeck?: {
-      id: string,
+      id: string
     },
 
     monotype?: {
       projectId: string,
-      version?: number,
+      version?: number
     },
 
     google?: {
       families: string[],
-      text?: string,
+      text?: string
     },
 
     typekit?: {
-      id: string,
-    },
-  }
+      id: string
+    }
+  };
   declare class WebFont {
     load(config: WebFontConfig): void;
   }
 
-  declare var exports: WebFont;
+  declare module.exports: WebFont;
 }
-

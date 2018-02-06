@@ -22,7 +22,7 @@ type State = {
   hasMoreItems : boolean
 };
 
-const loader = (<div className="loader">Loading ...</div>);
+const loader = (<div className="loader" key={0}>Loading ...</div>);
 
 export default class SubbredditComponent extends Component<Props, State> {
   state: State;
@@ -91,7 +91,7 @@ export default class SubbredditComponent extends Component<Props, State> {
         hasMore={this.state.hasMoreItems}
         loader={loader}>
 
-        <div className="tracks">
+        <div key="items" className="tracks">
           {items}
         </div>
       </InfiniteScroll>

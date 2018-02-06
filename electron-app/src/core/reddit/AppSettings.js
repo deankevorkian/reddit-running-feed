@@ -1,7 +1,7 @@
 /* @flow */
 
 const appUserAgent: string = "Reddit Running Feed";
-const appClientId: string = "B9MiM6YU7XRzmA";
+const appClientId: string = "Nx35IUdmyK8YWg";
 const appClientSecret: string = "";
 const redirectUri: string = "http://localhost:3000/";
 const locStorRefTokKey: string = "user_refresh_token";

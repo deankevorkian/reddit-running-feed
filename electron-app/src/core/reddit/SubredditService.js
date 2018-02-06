@@ -1,7 +1,7 @@
 /* @flow */
 
 import snoowrap from 'snoowrap';
-import { AppSettings } from './app-settings';
+import { AppSettings } from './AppSettings';
 import uuidv4 from 'uuid/v4';
 
 
