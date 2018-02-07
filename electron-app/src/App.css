@@ -24,14 +24,11 @@
 }
 
 .row-container {
-  position: relative;
-  height: 100vh;
+  height: 100%;
   width: 100%;
-  overflow-y: hidden;
 }
 
 .scrolled-area-holder {
-  position: relative;
-  height: 100vh;
+  height: 750px;
   overflow-y: scroll;
 }

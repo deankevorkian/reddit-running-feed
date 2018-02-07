@@ -62,7 +62,7 @@ export default class SubbredditComponent extends Component<Props, State> {
     let currPostsCount = currPosts.length;
     let fetchAfter = currPostsCount > 0 ? "t3_" + currPosts[currPostsCount - 1].submissionId : null;
     this.getPosts(fetchAfter).then(fetchedPosts => {
-      let mergedPosts : Post[] = [...currPosts, ...fetchedPosts];
+      let mergedPosts : Post[] = currPosts.concat(fetchedPosts);
       this.setPosts(mergedPosts);
     });
   }
@@ -89,7 +89,8 @@ export default class SubbredditComponent extends Component<Props, State> {
         pageStart={0}
         loadMore={(page) => this.loadItems(page)}
         hasMore={this.state.hasMoreItems}
-        loader={loader}>
+        loader={loader}
+        useWindow={false}>
 
         <div key="items" className="tracks">
           {items}
