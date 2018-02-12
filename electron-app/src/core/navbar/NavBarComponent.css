@@ -1,0 +1,19 @@
+.horizontal-menu {
+  height: 60px;
+}
+
+.horizontal-menu ul {
+  white-space: nowrap;
+  overflow-x: scroll;
+  display: inline;
+  float: none;
+}
+
+.horizontal-menu li {
+  display: inline;
+  float: none;
+}
+
+.horizontal-menu li a {
+  display: inline;
+}
