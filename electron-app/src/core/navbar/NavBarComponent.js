@@ -50,13 +50,13 @@ export default class NavBarComponent extends React.Component<Props, State> {
       //   })}
       // </Nav>
     <div>
-      <MediaQuery maxWidth={970}>
+      <MediaQuery maxWidth={990}>
         <Nav bsStyle="pills" activeKey={this.state.key} onSelect={() => this.handleSelect} className="horizontal-menu">
           {items}
         </Nav>
       </MediaQuery>
 
-      <MediaQuery minWidth={970}>
+      <MediaQuery minWidth={991}>
         <Nav className="vertical-menu" stacked bsStyle="pills" activeKey={this.state.key} onSelect={() => this.handleSelect}>
           {items}
         </Nav>
