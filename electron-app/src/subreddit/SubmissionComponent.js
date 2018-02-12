@@ -4,6 +4,10 @@ import { Panel, Glyphicon } from 'react-bootstrap';
 
 import Post from '../core/reddit/Post';
 
+import {Row, Col} from 'react-bootstrap';
+
+import './SubmissionComponent.css';
+
 type State = {
 
 };
@@ -23,11 +27,22 @@ export default class SubmissionComponent extends React.Component<Props, State> {
     return (
       <div key={this.props.submission.submissionId}>
         <Panel header={this.props.submission.author} bsStyle="primary">
-          <Glyphicon glyph="arrow-up">{this.props.submission.upvotes}</Glyphicon>
-          <Glyphicon glyph="arrow-down">{this.props.submission.downvotes}</Glyphicon>
-          <a href={this.props.submission.url}>
-            <img src={this.props.submission.thumbnailUrl !== 'default' && this.props.submission.thumbnailUrl !== 'self' ? this.props.submission.thumbnailUrl: ""} alt={this.props.submission.title}></img>{this.props.submission.title}
-          </a>
+        <Row>
+          <Col sm={3} md={2} lg={1}>
+            <ul className="votes-holder">
+              <li><Glyphicon glyph="arrow-up" /></li>
+              <li>{this.props.submission.upvotes}</li>
+              <li><Glyphicon glyph="arrow-down" /></li>
+            </ul>
+          </Col>
+
+          <Col sm={9} md={10} lg={11}>
+            <a href={this.props.submission.url}>
+              <img src={this.props.submission.thumbnailUrl !== 'default' && this.props.submission.thumbnailUrl !== 'self' ? this.props.submission.thumbnailUrl: ""}></img>
+              {this.props.submission.title}
+            </a>
+          </Col>
+        </Row>
         </Panel>
       </div>
     );

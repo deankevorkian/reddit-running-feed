@@ -1,5 +1,6 @@
 // @flow
-import snoowrap from 'snoowrap';
+//import snoowrap from 'snoowrap';
+const snoowrap = window.snoowrap;
 
 export type AppState = {
   subredditsScrollSpot: Map<string, Object>;

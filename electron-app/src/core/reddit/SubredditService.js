@@ -1,9 +1,10 @@
 /* @flow */
 
-import snoowrap from 'snoowrap';
 import { AppSettings } from './AppSettings';
 import uuidv4 from 'uuid/v4';
 
+//import snoowrap from 'snoowrap';
+const snoowrap = window.snoowrap;
 
 export default class SubredditService {
   authCode: string;

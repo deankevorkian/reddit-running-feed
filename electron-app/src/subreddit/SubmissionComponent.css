@@ -1,0 +1,8 @@
+.votes-holder {
+  list-style-type: none;
+  text-align: center;
+}
+
+.glyphicon.glyphicon-arrow-up, .glyphicon.glyphicon-arrow-down {
+  font-size: 30px;
+}

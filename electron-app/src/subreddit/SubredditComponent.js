@@ -10,7 +10,8 @@ import './SubredditComponent.css';
 import { Post } from '../core/reddit/Post';
 
 import SubredditService from '../core/reddit/SubredditService';
-import snoowrap from 'snoowrap';
+//import snoowrap from 'snoowrap';
+const snoowrap = window.snoowrap;
 
 type Props = {
   subreddit: string,
@@ -58,8 +59,8 @@ export default class SubbredditComponent extends Component<Props, State> {
   }
 
   fetchData() {
-    let currPosts = this.state.posts;
-    let currPostsCount = currPosts.length;
+    const currPosts = this.state.posts;
+    const currPostsCount = currPosts.length;
     let fetchAfter = currPostsCount > 0 ? "t3_" + currPosts[currPostsCount - 1].submissionId : null;
     this.getPosts(fetchAfter).then(fetchedPosts => {
       let mergedPosts : Post[] = currPosts.concat(fetchedPosts);

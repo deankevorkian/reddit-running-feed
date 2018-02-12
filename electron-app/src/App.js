@@ -66,11 +66,11 @@ class App extends Component<void, AppState> {
           <h2>Reddit Running Feed</h2>
 
           <Row bsClass={"row-container row"}>
-            <Col sm={2} bsClass={"scrolled-area-holder col"}>
+            <Col xs={12} sm={4} md={3} lg={2} bsClass={"scrolled-area-holder col"}>
               <NavBarComponent subreddits={this.state.subreddits} />
             </Col>
 
-            <Col sm={10} bsClass={"scrolled-area-holder col"}>
+            <Col xs={12} sm={8} md={9} lg={10} bsClass={"scrolled-area-holder col"}>
               {this.state.subreddits.map(subReddit => {
                 return (
                   <PropsRoute key={subReddit} exact path={"/" + subReddit} component={SubredditComponent} subreddit={subReddit} agent={this.state.agent} />

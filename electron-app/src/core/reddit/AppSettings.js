@@ -3,7 +3,7 @@
 const appUserAgent: string = "Reddit Running Feed";
 const appClientId: string = "Nx35IUdmyK8YWg";
 const appClientSecret: string = "";
-const redirectUri: string = "http://localhost:3000/";
+const redirectUri: string = "https://reddit-running-feed.azurewebsites.net/";
 const locStorRefTokKey: string = "user_refresh_token";
 const permissionsScope: string[] = ['identity', 'wikiread', 'wikiedit', 'read', 'mysubreddits'];
 
